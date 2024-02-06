@@ -264,8 +264,12 @@ public class Level {
      */
     private void updateObservers() {
         if (!isAnyPlayerAlive()) {
-            for (LevelObserver observer : observers) {
-                observer.levelLost();
+            if (isAnyPlayerHaveLivesLeft()) {
+                start();
+            }else{
+                for (LevelObserver observer : observers) {
+                    observer.levelLost();
+                }
             }
         }
         if (remainingPellets() == 0) {
@@ -289,6 +293,23 @@ public class Level {
             }
         }
         return false;
+    }
+
+    public boolean isAnyPlayerHaveLivesLeft() {
+        for (Player player : players) {
+            if (player.hasLives()) {
+                resetPlayer(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void resetPlayer(Player player){
+        Square square = startSquares.get(startSquareIndex);
+        player.occupy(square);
+        player.removeLive();
+        player.setAlive(true);
     }
 
     /**
