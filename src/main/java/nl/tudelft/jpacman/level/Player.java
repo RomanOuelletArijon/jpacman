@@ -39,8 +39,10 @@ public class Player extends Unit {
      */
     private Unit killer;
 
-    private int maxLife = 3;
-    private int livesRealTime = maxLife;
+    /**
+     * Number of lives of the player.
+     */
+    private int livesRealTime = 3;
 
     /**
      * Creates a new player with a score of 0 points.
@@ -68,11 +70,7 @@ public class Player extends Unit {
     }
 
     public boolean hasLives(){
-        if (livesRealTime<=0) {
-            return false;
-        }else{
-            return true;
-        }
+        return livesRealTime > 0;
     }
 
     public void removeLive(){
