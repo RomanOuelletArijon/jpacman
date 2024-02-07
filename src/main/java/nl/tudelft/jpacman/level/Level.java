@@ -281,7 +281,7 @@ public class Level {
     /**
      * Check the conditions for losing and call the method levelLost accordingly.
      */
-    private boolean losingCondition(){
+    private void losingCondition(){
         if (isAnyPlayerHaveLivesLeft()) {
             start();
         }else{
