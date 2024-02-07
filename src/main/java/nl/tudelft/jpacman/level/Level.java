@@ -309,6 +309,13 @@ public class Level {
         return false;
     }
 
+    /**
+     * Returns <code>true</code> if at least one of the players in this level
+     * has one life left he can use.
+     *
+     * @return <code>true</code> if at least one of the registered players
+     *         has a life left.
+     */
     public boolean isAnyPlayerHaveLivesLeft() {
         for (Player player : players) {
             if (player.hasLives()) {
@@ -319,6 +326,9 @@ public class Level {
         return false;
     }
 
+    /**
+     * Reset the position of the player and remove one life from him.
+     */
     public void resetPlayer(Player player){
         Square square = startSquares.get(startSquareIndex);
         player.occupy(square);
@@ -336,15 +346,28 @@ public class Level {
         int pellets = 0;
         for (int x = 0; x < board.getWidth(); x++) {
             for (int y = 0; y < board.getHeight(); y++) {
-                for (Unit unit : board.squareAt(x, y).getOccupants()) {
-                    if (unit instanceof Pellet) {
-                        pellets++;
-                    }
-                }
+                pellets += squareContainsPellets(x, y);
             }
         }
         assert pellets >= 0;
         return pellets;
+    }
+
+    /**
+     * Check if the square contains a pellets.
+     *
+     * @param x position in x coordinate of the square
+     * @param y position in y coordinate of the square
+     * @return 1 if the square contains a pellets and 0 if it doesn't.
+     */
+    public int squareContainsPellets(int x, int y) {
+        Board board = getBoard();
+        for (Unit unit : board.squareAt(x, y).getOccupants()) {
+            if (unit instanceof Pellet) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     /**
