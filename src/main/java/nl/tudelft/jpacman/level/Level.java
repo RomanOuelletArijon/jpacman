@@ -282,31 +282,13 @@ public class Level {
      * Check the conditions for losing and call the method levelLost accordingly.
      */
     private boolean losingCondition(){
-        if (!isAnyPlayerAlive()) {
-            if (isAnyPlayerHaveLivesLeft()) {
-                start();
-            }else{
-                for (LevelObserver observer : observers) {
-                    observer.levelLost();
-                }
+        if (isAnyPlayerHaveLivesLeft()) {
+            start();
+        }else{
+            for (LevelObserver observer : observers) {
+                observer.levelLost();
             }
         }
-    }
-
-    /**
-     * Returns <code>true</code> iff at least one of the players in this level
-     * is alive.
-     *
-     * @return <code>true</code> if at least one of the registered players is
-     *         alive.
-     */
-    public boolean isAnyPlayerAlive() {
-        for (Player player : players) {
-            if (player.isAlive()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -318,7 +300,9 @@ public class Level {
      */
     public boolean isAnyPlayerHaveLivesLeft() {
         for (Player player : players) {
-            if (player.hasLives()) {
+            if (player.isAlive()) {
+                return true;
+            }else if (player.hasLives()) {
                 resetPlayer(player);
                 return true;
             }
