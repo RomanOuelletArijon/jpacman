@@ -263,6 +263,25 @@ public class Level {
      * Updates the observers about the state of this level.
      */
     private void updateObservers() {
+        losingCondition();
+        winningCondition();
+    }
+
+    /**
+     * Check the conditions for winning and call the mothod levelWon() accordingly.
+     */
+    private void winningCondition(){
+        if (remainingPellets() == 0) {
+            for (LevelObserver observer : observers) {
+                observer.levelWon();
+            }
+        }
+    }
+
+    /**
+     * Check the conditions for losing and call the method levelLost accordingly.
+     */
+    private boolean losingCondition(){
         if (!isAnyPlayerAlive()) {
             if (isAnyPlayerHaveLivesLeft()) {
                 start();
@@ -270,11 +289,6 @@ public class Level {
                 for (LevelObserver observer : observers) {
                     observer.levelLost();
                 }
-            }
-        }
-        if (remainingPellets() == 0) {
-            for (LevelObserver observer : observers) {
-                observer.levelWon();
             }
         }
     }
